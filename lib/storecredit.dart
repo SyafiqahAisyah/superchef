@@ -4,24 +4,23 @@ import 'package:flutter/material.dart';
 
 import 'user.dart';
 
-class PaymentScreen extends StatefulWidget {
+class StoreCreditScreen extends StatefulWidget {
   final User user;
-  final String orderid, val;
-  PaymentScreen({this.user, this.orderid, this.val});
+  final String  val;
+  StoreCreditScreen({this.user,  this.val});
 
   @override
-  _PaymentScreenState createState() => _PaymentScreenState();
+  _StoreCreditScreenState createState() => _StoreCreditScreenState();
 }
 
-class _PaymentScreenState extends State<PaymentScreen> {
+class _StoreCreditScreenState extends State<StoreCreditScreen> {
   Completer<WebViewController> _controller = Completer<WebViewController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-           backgroundColor: Colors.deepOrange,
-          title: Text('PAYMENT'),
+          title: Text('BUY STORE CREDIT'),
           // backgroundColor: Colors.deepOrange,
         ),
         body: Column(
@@ -29,17 +28,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
             Expanded(
               child: WebView(
                 initialUrl:
-                    'http://asaboleh.com/superchef/php/payment.php?email=' +
-                     //   widget.user.email +
+                    'http://asaboleh.com/superchef/php/buycredit.php?email=' +
+                       // widget.user.email +
                         '&mobile=' +
-                     //   widget.user.phone +
-                        '&name=' +
-                      //  widget.user.name +
+                       // widget.user.phone +                  
                         '&amount=' +
                        // widget.val +
-                        '&orderid=' +
-                        widget.orderid
-                        ,
+                        '&csc=' +
+                        //widget.user.credit,
+                        '&name=' +
+                        widget.user.name,
+                        
                 javascriptMode: JavascriptMode.unrestricted,
                 onWebViewCreated: (WebViewController webViewController) {
                   _controller.complete(webViewController);

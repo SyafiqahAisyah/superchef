@@ -3,14 +3,18 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:superchef/product.dart';
+import 'package:superchef/productInfo.dart';
 import 'package:superchef/user.dart';
 import 'package:superchef/paymenthistoryscreen.dart';
+import 'package:superchef/profilescreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:toast/toast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'cartscreen.dart';
+import 'reportscreen.dart';
 
 class MainScreen extends StatefulWidget {
   final User user;
@@ -22,6 +26,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  GlobalKey<RefreshIndicatorState> refreshKey;
+  List productInfo;
   List productdata;
   int curnumber = 1;
   double screenHeight, screenWidth;
@@ -29,7 +35,7 @@ class _MainScreenState extends State<MainScreen> {
   String curtype = "Recent";
   String cartquantity = "0";
   int quantity = 1;
-  bool _isadmin = false;
+  // bool _isadmin = false;
   String titlecenter = "";
   String server = "https://asaboleh.com/superchef";
 
@@ -38,6 +44,7 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     _loadData();
     _loadCartQuantity();
+    refreshKey = GlobalKey<RefreshIndicatorState>();
     /* if (widget.user.email == "admin@superchef.com") {
       _isadmin = true;
     }*/
@@ -53,7 +60,7 @@ class _MainScreenState extends State<MainScreen> {
         child: Scaffold(
           drawer: mainDrawer(context),
           appBar: AppBar(
-            backgroundColor: Colors.deepOrangeAccent,
+            backgroundColor: Colors.deepOrange,
             title: Text(
               'Recipe List',
               style: TextStyle(
@@ -97,17 +104,18 @@ class _MainScreenState extends State<MainScreen> {
                                   children: <Widget>[
                                     FlatButton(
                                         onPressed: () => _sortItem("Recent"),
-                                        color: Colors.orangeAccent,
+                                        color: Colors.deepOrangeAccent,
                                         padding: EdgeInsets.all(10.0),
                                         child: Column(
                                           // Replace with a Row for horizontal icon + text
                                           children: <Widget>[
                                             Icon(MdiIcons.update,
-                                                color: Colors.black),
+                                                color: Colors.white),
                                             Text(
                                               "Recent",
                                               style: TextStyle(
-                                                  color: Colors.black),
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
                                             )
                                           ],
                                         )),
@@ -120,19 +128,20 @@ class _MainScreenState extends State<MainScreen> {
                                   children: <Widget>[
                                     FlatButton(
                                         onPressed: () => _sortItem("Drink"),
-                                        color: Colors.orangeAccent,
+                                        color: Colors.deepOrangeAccent,
                                         padding: EdgeInsets.all(10.0),
                                         child: Column(
                                           // Replace with a Row for horizontal icon + text
                                           children: <Widget>[
                                             Icon(
                                               MdiIcons.beer,
-                                              color: Colors.black,
+                                              color: Colors.white,
                                             ),
                                             Text(
                                               "Drink",
                                               style: TextStyle(
-                                                  color: Colors.black),
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
                                             )
                                           ],
                                         )),
@@ -146,19 +155,20 @@ class _MainScreenState extends State<MainScreen> {
                                     FlatButton(
                                         onPressed: () =>
                                             _sortItem("Main Course"),
-                                        color: Colors.orangeAccent,
+                                        color: Colors.deepOrangeAccent,
                                         padding: EdgeInsets.all(10.0),
                                         child: Column(
                                           // Replace with a Row for horizontal icon + text
                                           children: <Widget>[
                                             Icon(
                                               MdiIcons.rice,
-                                              color: Colors.black,
+                                              color: Colors.white,
                                             ),
                                             Text(
                                               "Main Course",
                                               style: TextStyle(
-                                                  color: Colors.black),
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
                                             )
                                           ],
                                         )),
@@ -172,19 +182,20 @@ class _MainScreenState extends State<MainScreen> {
                                     FlatButton(
                                         onPressed: () =>
                                             _sortItem("Vegetarian"),
-                                        color: Colors.orangeAccent,
+                                        color: Colors.deepOrangeAccent,
                                         padding: EdgeInsets.all(10.0),
                                         child: Column(
                                           // Replace with a Row for horizontal icon + text
                                           children: <Widget>[
                                             Icon(
                                               MdiIcons.leaf,
-                                              color: Colors.black,
+                                              color: Colors.white,
                                             ),
                                             Text(
                                               "Vegetarian",
                                               style: TextStyle(
-                                                  color: Colors.black),
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
                                             )
                                           ],
                                         )),
@@ -197,19 +208,20 @@ class _MainScreenState extends State<MainScreen> {
                                   children: <Widget>[
                                     FlatButton(
                                         onPressed: () => _sortItem("Dessert"),
-                                        color: Colors.orangeAccent,
+                                        color: Colors.deepOrangeAccent,
                                         padding: EdgeInsets.all(10.0),
                                         child: Column(
                                           // Replace with a Row for horizontal icon + text
                                           children: <Widget>[
                                             Icon(
                                               MdiIcons.cake,
-                                              color: Colors.black,
+                                              color: Colors.white,
                                             ),
                                             Text(
                                               "Dessert",
                                               style: TextStyle(
-                                                  color: Colors.black),
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
                                             )
                                           ],
                                         )),
@@ -222,19 +234,20 @@ class _MainScreenState extends State<MainScreen> {
                                   children: <Widget>[
                                     FlatButton(
                                         onPressed: () => _sortItem("Others"),
-                                        color: Colors.orangeAccent,
+                                        color: Colors.deepOrangeAccent,
                                         padding: EdgeInsets.all(10.0),
                                         child: Column(
                                           // Replace with a Row for horizontal icon + text
                                           children: <Widget>[
                                             Icon(
                                               MdiIcons.ornament,
-                                              color: Colors.black,
+                                              color: Colors.white,
                                             ),
                                             Text(
                                               "Others",
                                               style: TextStyle(
-                                                  color: Colors.black),
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
                                             )
                                           ],
                                         )),
@@ -269,13 +282,15 @@ class _MainScreenState extends State<MainScreen> {
                             )),
                             Flexible(
                                 child: MaterialButton(
-                                    color: Colors.orangeAccent,
+                                    color: Colors.deepOrange,
                                     onPressed: () =>
                                         {_sortItembyName(_prdController.text)},
                                     elevation: 5,
                                     child: Text(
                                       "Search Recipe",
-                                      style: TextStyle(color: Colors.black),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
                                     )))
                           ],
                         ),
@@ -319,7 +334,7 @@ class _MainScreenState extends State<MainScreen> {
                                               children: <Widget>[
                                                 GestureDetector(
                                                   onTap: () =>
-                                                      _onImageDisplay(index),
+                                                      _productInfo(index),
                                                   child: Container(
                                                     height: screenHeight / 5.9,
                                                     width: screenWidth / 3.5,
@@ -361,16 +376,16 @@ class _MainScreenState extends State<MainScreen> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               15.0)),
-                                                  minWidth: 100,
-                                                  height: 30,
+                                                  minWidth: 120,
+                                                  height: 35,
                                                   child: Text(
                                                     'Add to Cart',
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        color: Colors.black),
+                                                        color: Colors.white),
                                                   ),
-                                                  color: Colors.orangeAccent,
+                                                  color: Colors.deepOrange,
                                                   textColor: Colors.black,
                                                   elevation: 3,
                                                   onPressed: () =>
@@ -416,12 +431,13 @@ class _MainScreenState extends State<MainScreen> {
               _loadCartQuantity();
             },
             icon: Icon(Icons.add_shopping_cart),
+            backgroundColor: Colors.deepOrange,
             label: Text(cartquantity),
           ),
         ));
   }
 
-  _onImageDisplay(int index) {
+  /* _onImageDisplay(int index) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -454,6 +470,23 @@ class _MainScreenState extends State<MainScreen> {
             ));
       },
     );
+  }*/
+
+  _productInfo(int index) async {
+    print(productdata[index]['name']);
+    Product product = new Product(
+        id: productdata[index]['id'],
+        name: productdata[index]['name'],
+        description: productdata[index]['description'],
+        price: productdata[index]['price'],
+        quantity: productdata[index]['quantity'],
+        weight: productdata[index]['weight'],
+        type: productdata[index]['type']);
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => ProductInfo(product: product)));
   }
 
   void _loadData() {
@@ -473,7 +506,7 @@ class _MainScreenState extends State<MainScreen> {
   void _loadCartQuantity() async {
     String urlLoadJobs = server + "/php/load_cartquantity.php";
     await http.post(urlLoadJobs, body: {
-      "email": widget.user.email,
+      // "email": widget.user.email,
     }).then((res) {
       if (res.body == "nodata") {
       } else {
@@ -488,10 +521,11 @@ class _MainScreenState extends State<MainScreen> {
     return Drawer(
       child: ListView(
         children: <Widget>[
-          /* UserAccountsDrawerHeader(
-            accountName: Text(widget.user.name),
-           accountEmail: Text(widget.user.email),
-          /*  otherAccountsPictures: <Widget>[
+          UserAccountsDrawerHeader(
+            accountName: Text("Syafiqah Aisyah"),
+            accountEmail: Text("iamsyaf15@gmail.com"),
+
+            /*  otherAccountsPictures: <Widget>[
               Text("RM " + widget.user.credit,
                   style: TextStyle(fontSize: 16.0, color: Colors.black)),
             ],*/
@@ -499,29 +533,32 @@ class _MainScreenState extends State<MainScreen> {
               backgroundColor:
                   Theme.of(context).platform == TargetPlatform.android
                       ? Colors.white
-                      : Colors.white,
+                      : Colors.orange,
               child: Text(
-                widget.user.name.toString().substring(0, 1).toUpperCase(),
+                //  widget.user.name.
+                toString().substring(0, 1).toUpperCase(),
                 style: TextStyle(fontSize: 40.0),
               ),
-             /* backgroundImage: NetworkImage(
-                  server + "/profileImages/${['index']}.jpg?"),*/
+              backgroundImage:
+                  NetworkImage(server + "/profileimages/profile.png?"),
             ),
             onDetailsPressed: () => {
               Navigator.pop(context),
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => CartScreen(
+                      builder: (BuildContext context) => ProfileScreen(
                             user: widget.user,
                           )))
             },
-          ),*/
+          ),
           ListTile(
               title: Text(
-                "Recipe List",
+                "Product List",
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.deepOrange,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
               ),
               trailing: Icon(Icons.arrow_forward),
@@ -532,7 +569,11 @@ class _MainScreenState extends State<MainScreen> {
           ListTile(
               title: Text(
                 "Shopping Cart",
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(
+                  color: Colors.deepOrange,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
               ),
               trailing: Icon(Icons.arrow_forward),
               onTap: () => {
@@ -550,8 +591,9 @@ class _MainScreenState extends State<MainScreen> {
               title: Text(
                 "Payment History",
                 style: TextStyle(
-                  color: Colors.black,
-                ),
+                    color: Colors.deepOrange,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
               ),
               trailing: Icon(Icons.arrow_forward),
               onTap: () => {
@@ -568,21 +610,38 @@ class _MainScreenState extends State<MainScreen> {
               title: Text(
                 "User Profile",
                 style: TextStyle(
-                  color: Colors.black,
-                ),
+                    color: Colors.deepOrange,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
               ),
               trailing: Icon(Icons.arrow_forward),
               onTap: () => {
                     Navigator.pop(context),
-                    /*  Navigator.push(
+                    Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) => CartScreen(
+                            builder: (BuildContext context) => ProfileScreen(
                                   user: widget.user,
-                                )))*/
+                                )))
                   }),
-          Visibility(
-            visible: _isadmin,
+          ListTile(
+              title: Text(
+                "Sales Report",
+                style: TextStyle(
+                    color: Colors.deepOrange,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
+              ),
+              trailing: Icon(Icons.arrow_forward),
+              onTap: () => {
+                    Navigator.pop(context),
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => ReportScreen()))
+                  }),
+          /* Visibility(
+            // visible: _isadmin,
             child: Column(
               children: <Widget>[
                 Divider(
@@ -592,13 +651,15 @@ class _MainScreenState extends State<MainScreen> {
                 Center(
                   child: Text(
                     "Menu",
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black),
                   ),
                 ),
                 ListTile(
                     title: Text(
                       "My Products",
                       style: TextStyle(
+                        fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                     ),
@@ -616,6 +677,7 @@ class _MainScreenState extends State<MainScreen> {
                   title: Text(
                     "Customer Orders",
                     style: TextStyle(
+                      fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
                   ),
@@ -625,6 +687,7 @@ class _MainScreenState extends State<MainScreen> {
                   title: Text(
                     "Report",
                     style: TextStyle(
+                      fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
                   ),
@@ -632,7 +695,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ],
             ),
-          )
+          )*/
         ],
       ),
     );
@@ -787,23 +850,23 @@ class _MainScreenState extends State<MainScreen> {
           if (res.body == "failed") {
             Toast.show("Failed add to cart", context,
                 duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-            pr.dismiss();
+            pr.hide();
             return;
           } else {
             List respond = res.body.split(",");
             setState(() {
               cartquantity = respond[1];
-              //  widget.user.quantity = cartquantity;
+              widget.user.quantity = cartquantity;
             });
             Toast.show("Success add to cart", context,
                 duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
           }
-          pr.dismiss();
+          pr.hide();
         }).catchError((err) {
           print(err);
-          pr.dismiss();
+          pr.hide();
         });
-        pr.dismiss();
+        pr.hide();
       } else {
         Toast.show("Out of stock", context,
             duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
@@ -824,27 +887,18 @@ class _MainScreenState extends State<MainScreen> {
       http.post(urlLoadJobs, body: {
         "type": type,
       }).then((res) {
-        if (res.body == "nodata") {
-          setState(() {
-            productdata = null;
-            curtype = type;
-            titlecenter = "No product found";
-          });
-          pr.dismiss();
-        } else {
-          setState(() {
-            curtype = type;
-            var extractdata = json.decode(res.body);
-            productdata = extractdata["products"];
-            FocusScope.of(context).requestFocus(new FocusNode());
-            pr.dismiss();
-          });
-        }
+        setState(() {
+          curtype = type;
+          var extractdata = json.decode(res.body);
+          productdata = extractdata["products"];
+          FocusScope.of(context).requestFocus(new FocusNode());
+          pr.hide();
+        });
       }).catchError((err) {
         print(err);
-        pr.dismiss();
+        pr.hide();
       });
-      pr.dismiss();
+      pr.hide();
     } catch (e) {
       Toast.show("Error", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
@@ -868,7 +922,7 @@ class _MainScreenState extends State<MainScreen> {
             if (res.body == "nodata") {
               Toast.show("Product not found", context,
                   duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-              pr.dismiss();
+              pr.hide();
               setState(() {
                 titlecenter = "No product found";
                 curtype = "search for " + "'" + prname + "'";
@@ -884,14 +938,14 @@ class _MainScreenState extends State<MainScreen> {
                 FocusScope.of(context).requestFocus(new FocusNode());
                 //curtype = prname;
                 curtype = "search for " + "'" + prname + "'";
-                pr.dismiss();
+                pr.hide();
               });
             }
           })
           .catchError((err) {
-            pr.dismiss();
+            pr.hide();
           });
-      pr.dismiss();
+      pr.hide();
     } on TimeoutException catch (_) {
       Toast.show("Time out", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
@@ -979,5 +1033,12 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ) ??
         false;
+  }
+
+  Future<Null> refreshList() async {
+    await Future.delayed(Duration(seconds: 2));
+    //_getLocation();
+    _loadData();
+    return null;
   }
 }

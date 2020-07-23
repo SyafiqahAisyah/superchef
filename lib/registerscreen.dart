@@ -234,7 +234,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             builder: (BuildContext context) => 
             LoginScreen()));
           }),
-
            new FlatButton(
                   child: new Text("No"),
                   onPressed: () {
@@ -307,10 +306,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) => LoginScreen()));
-        Toast.show("Registration failed", context,
+        Toast.show("Registration success", context,
             duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       } else {
-        Toast.show("Registration success", context,
+        Toast.show("Registration failed", context,
             duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       }
     }).catchError((err) {
@@ -426,5 +425,4 @@ String validatePass(String value) {
   return null;*/
 
  
-  
   

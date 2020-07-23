@@ -21,17 +21,18 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   double screenHeight;
   TextEditingController _emailEditingController = new TextEditingController();
-  TextEditingController _passwordEditingController = new TextEditingController();
+  TextEditingController _passwordEditingController =
+      new TextEditingController();
   String urlLogin = "https://asaboleh.com/superchef/php/login_user.php";
 
   @override
-   void initState() {
+  void initState() {
     super.initState();
     print("Hello i'm in INITSTATE");
     this.loadPref();
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
     return WillPopScope(
@@ -49,9 +50,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget upperHalf(BuildContext context) {
     return Container(
-      height: screenHeight /2,
+      height: screenHeight / 2,
       child: Image.asset(
-        'assets/images/login.jpg',
+        'assets/images/loginscreen.jpg',
         fit: BoxFit.cover,
       ),
     );
@@ -59,20 +60,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget lowerHalf(BuildContext context) {
     return Container(
-     color:Colors.orangeAccent.shade400,
+      color: Colors.orangeAccent.shade400,
       height: 600,
-      margin: EdgeInsets.only(top: screenHeight / 2.3),    
+      margin: EdgeInsets.only(top: screenHeight / 2.3),
       padding: EdgeInsets.only(left: 10, right: 10),
       child: Column(
         children: <Widget>[
           Card(
-            color:Colors.orangeAccent.shade100,
+            color: Colors.orangeAccent.shade100,
             elevation: 8,
-            margin: EdgeInsets.only(top: 10 ,bottom:8),    
+            margin: EdgeInsets.only(top: 10, bottom: 8),
             shape: ContinuousRectangleBorder(
-              side: BorderSide(color: Colors.orangeAccent.shade400, width: 3.0),
-              borderRadius: BorderRadius.circular(50.0)
-            ),
+                side:
+                    BorderSide(color: Colors.orangeAccent.shade400, width: 3.0),
+                borderRadius: BorderRadius.circular(50.0)),
             child: Container(
               padding: EdgeInsets.fromLTRB(35, 10, 35, 8),
               child: Column(
@@ -88,45 +89,41 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-
-                Padding(
-                  padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
-                  child: TextField(
-                    controller: _emailEditingController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: new InputDecoration(
-                      labelText: 'Email',
-                      icon: Icon(Icons.email ,color: Colors.orange[900]),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
+                    child: TextField(
+                      controller: _emailEditingController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: new InputDecoration(
+                        labelText: 'Email',
+                        icon: Icon(Icons.email, color: Colors.orange[900]),
                         border: new OutlineInputBorder(
                           borderRadius: const BorderRadius.all(
-                            const Radius.circular(40.0)
-                          ),
+                              const Radius.circular(40.0)),
                         ),
-                        ),
+                      ),
+                    ),
                   ),
-                ),
-
-                 Padding(
-                  padding: EdgeInsets.fromLTRB(10, 5, 10, 20),
-                  child: TextField(
-                    controller: _passwordEditingController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: new InputDecoration(
-                      labelText: 'Password',
-                      icon: Icon(Icons.lock,color: Colors.orange[900]),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 5, 10, 20),
+                    child: TextField(
+                      controller: _passwordEditingController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: new InputDecoration(
+                        labelText: 'Password',
+                        icon: Icon(Icons.lock, color: Colors.orange[900]),
                         border: new OutlineInputBorder(
                           borderRadius: const BorderRadius.all(
                             const Radius.circular(40.0),
                           ),
                         ),
-                        ),
-                 obscureText: true,
+                      ),
+                      obscureText: true,
+                    ),
                   ),
-                ),
                   SizedBox(
-                    height:10,
+                    height: 10,
                   ),
-                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -145,8 +142,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         minWidth: 100,
                         height: 50,
                         child: Text('Login',
-                        style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold)),
                         color: Colors.orange[900],
                         textColor: Colors.black,
                         elevation: 8,
@@ -161,9 +158,8 @@ class _LoginScreenState extends State<LoginScreen> {
           SizedBox(
             height: 10,
           ),
-          
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,           
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               GestureDetector(
                 onTap: _registerUser,
@@ -172,68 +168,64 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                 ),
               ),
-           
-               GestureDetector(
+              GestureDetector(
                 onTap: _forgotPassword,
                 child: Text(
                   "Reset Password",
                   style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                 ),
               ),
-      ], ),
-
+            ],
+          ),
         ],
       ),
     );
   }
 
   void _userLogin() async {
-   try {
+    try {
       ProgressDialog pr = new ProgressDialog(context,
           type: ProgressDialogType.Normal, isDismissible: false);
       pr.style(message: "Login...");
       pr.show();
       String email = _emailEditingController.text;
       String password = _passwordEditingController.text;
-    
+
       http.post(urlLogin, body: {
-            "email": email,
-            "password": password,
-          })
-          
-          .then((res) {
-            var string = res.body;
-            print(res.body);
-            List userdata = string.split(",");
-            if (userdata[0] == "success") {
-              User _user = new User(
-                  name: userdata[1],
-                  email: email,
-                  password: password,
-                  phone: userdata[3],
-                 // credit: userdata[4],
-                  //datereg: userdata[5],
-                  quantity: userdata[4]);
-              pr.hide();
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => MainScreen( user: _user,
+        "email": email,
+        "password": password,
+      }).then((res) {
+        var string = res.body;
+        print(res.body);
+        List userdata = string.split(",");
+        if (userdata[0] == "success") {
+          User _user = new User(
+              name: userdata[1],
+              email: email,
+              password: password,
+              phone: userdata[3],
+              // credit: userdata[4],
+              //datereg: userdata[5],
+              quantity: userdata[4]);
+          pr.hide();
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => MainScreen(
+                        user: _user,
                       )));
-            Toast.show("Login successful", context,
-            duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);             
-            }
-            else {
-              pr.hide();
-              Toast.show("Login failed", context,
-                  duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-            }
-          })
-          .catchError((err) {
-            print(err);
-            pr.hide();
-          });
-    } on Exception  catch (_) {
+          Toast.show("Login successful", context,
+              duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+        } else {
+          pr.hide();
+          Toast.show("Login failed", context,
+              duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+        }
+      }).catchError((err) {
+        print(err);
+        pr.hide();
+      });
+    } on Exception catch (_) {
       Toast.show("Error", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
     }
@@ -283,7 +275,6 @@ class _LoginScreenState extends State<LoginScreen> {
               child: new Text("No"),
               onPressed: () {
                 Navigator.of(context).pop();
-                
               },
             ),
           ],
@@ -292,14 +283,13 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
   void _onRememberMeChanged(bool newValue) => setState(() {
         rememberMe = newValue;
         print(rememberMe);
         if (rememberMe) {
           savepref(true);
         } else {
-           savepref(false);
+          savepref(false);
         }
       });
 
@@ -325,32 +315,34 @@ class _LoginScreenState extends State<LoginScreen> {
         ) ??
         false;
   }
-Future<void> loadPref() async {
+
+  Future<void> loadPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String email = (prefs.getString('email'))??'';
-    String password = (prefs.getString('pass'))??'';
+    String email = (prefs.getString('email')) ?? '';
+    String password = (prefs.getString('password')) ?? '';
     if (email.length > 1) {
       setState(() {
         _emailEditingController.text = email;
-       _passwordEditingController.text = password;
+        _passwordEditingController.text = password;
         rememberMe = true;
       });
     }
   }
-void savepref(bool value) async {
+
+  void savepref(bool value) async {
     String email = _emailEditingController.text;
     String password = _passwordEditingController.text;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (value) {
       //save preference
       await prefs.setString('email', email);
-      await prefs.setString('pass', password);
+      await prefs.setString('password', password);
       Toast.show("Preferences have been saved", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
     } else {
       //delete preference
       await prefs.setString('email', '');
-      await prefs.setString('pass', '');
+      await prefs.setString('password', '');
       setState(() {
         _emailEditingController.text = '';
         _passwordEditingController.text = '';
@@ -360,6 +352,4 @@ void savepref(bool value) async {
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
     }
   }
-
-
 }

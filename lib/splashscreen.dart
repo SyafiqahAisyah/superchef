@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 //import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:http/http.dart' as http;
 import 'package:superchef/mainscreen.dart';
-//import 'package:superchef/Cartscreen.dart';
 //import 'package:superchef/loginscreen.dart';
 //import 'user.dart';
 

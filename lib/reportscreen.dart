@@ -5,15 +5,15 @@ import 'order.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 //import 'package:http/http.dart' as http;
 
-class OrderDetailScreen extends StatefulWidget {
+class ReportScreen extends StatefulWidget {
   final Order order;
 
-  const OrderDetailScreen({Key key, this.order}) : super(key: key);
+  const ReportScreen({Key key, this.order}) : super(key: key);
   @override
-  _OrderDetailScreenState createState() => _OrderDetailScreenState();
+  _ReportScreenState createState() => _ReportScreenState();
 }
 
-class _OrderDetailScreenState extends State<OrderDetailScreen> {
+class _ReportScreenState extends State<ReportScreen> {
   //List _orderdetails;
   String server = "https://asaboleh.com/superchef";
   String titlecenter = "Loading order details...";
@@ -32,15 +32,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepOrangeAccent,
-        title: Text('Order Details'),
+        title: Text('Sales Report'),
       ),
       body: Center(
         child: Column(children: <Widget>[
-          Text(
-            "Order Details",
-            style: TextStyle(
-                color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-          ),
           Padding(
               padding: EdgeInsets.fromLTRB(10, 1, 10, 1),
               child: InkWell(
@@ -51,7 +46,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        
                         Expanded(
                           flex: 2,
                           child: Padding(
@@ -68,13 +62,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 )),
                           ),
                         ),
-                       
                         Expanded(
                             flex: 4,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                              /*  Text(
+                                /*  Text(
                                   "ID:             1003",
                                   //_orderdetails[index]['id'],
                                   style: TextStyle(
@@ -89,7 +82,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                       color: Colors.black),
                                 ),
                                 Text(
-                                  " Dessert",
+                                  " Dessert" + "\n",
                                   // _orderdetails[index]['name'],
                                   style: TextStyle(
                                       fontWeight: FontWeight.w100,
@@ -97,28 +90,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                       color: Colors.black),
                                 ),
                                 Text(
-                                  "                                           x2",
-                                  // _orderdetails[index]['cquantity'],
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black),
-                                ),
-                                Text(
-                                  "                                   RM 20.00",
-                                  //_orderdetails[index]['price'],
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black),
-                                ),
-                                 Text(
-                                  "________________________________",
-                                  //_orderdetails[index]['price'],
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black),
-                                ),
-                                 Text(
-                                  "Total                             RM 40.00",
+                                  "Sold                                     30",
                                   //_orderdetails[index]['price'],
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -126,10 +98,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 ),
                               ],
                             )),
-                            
                       ],
                     ),
-                    
                   )))
         ]),
       ),
@@ -170,27 +140,4 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       },
     );
   }
-
-/*  _loadOrderDetails() async {
-    String urlLoadJobs =
-        "https://asaboleh.com/superchef/php/load_carthistory.php";
-    await http.post(urlLoadJobs, body: {
-      "orderid": widget.order.orderid,
-    }).then((res) {
-      print(res.body);
-      if (res.body == "nodata") {
-        setState(() {
-          _orderdetails = null;
-          titlecenter = "No Previous Payment";
-        });
-      } else {
-        setState(() {
-          var extractdata = json.decode(res.body);
-          _orderdetails = extractdata["carthistory"];
-        });
-      }
-    }).catchError((err) {
-      print(err);
-    });
-  }*/
 }

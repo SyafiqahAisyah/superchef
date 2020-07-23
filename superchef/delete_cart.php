@@ -6,7 +6,7 @@ $prodid = $_POST['prodid'];
 
 
 if (isset($_POST['prodid'])){
-    $sqldelete = "DELETE FROM CART WHERE EMAIL = '$email' AND PRODID='$prodid'";
+    $sqldelete = "DELETE FROM CART WHERE PROID='$prodid'";
 }else{
     $sqldelete = "DELETE FROM CART WHERE EMAIL = '$email'";
 }

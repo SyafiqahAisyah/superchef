@@ -1,103 +1,202 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+//import 'package:flutter/services.dart';
+//import 'package:cached_network_image/cached_network_image.dart';
 import 'package:superchef/product.dart';
-
 
 class ProductInfo extends StatefulWidget {
   final Product product;
-  const ProductInfo ({Key key, this.product}) : super(key: key);
+
+  const ProductInfo({Key key, this.product}) : super(key: key);
   @override
   _ProductInfoState createState() => _ProductInfoState();
 }
 
 class _ProductInfoState extends State<ProductInfo> {
-   double screenHeight, screenWidth;
-   @override
-    void initState() {
+  double screenHeight, screenWidth;
+  List productdata;
+ 
+
+  @override
+  void initState() {
     super.initState();
-    
+    //_loadData();
   }
 
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: WillPopScope(
-        onWillPop: _onBackPressed,
-         child: Scaffold(
-           backgroundColor: Colors.orangeAccent,
-        appBar: AppBar(
-          backgroundColor: Colors.deepOrange,
-          title: Text('My recipe'),
-        ),
-        body: Container(   
-          alignment: Alignment.topCenter,     
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 8),
-                  Container(
-                    height: screenHeight / 2,                   
-                    child: CachedNetworkImage(
-                      
-                      fit: BoxFit.cover,
-                      imageUrl:
-                      "http://www.asaboleh.com/superchef/productImages/"
 
-                    ),
-                  
-              ),
-            
-                                   
-                 ] ),
-                                
-                                ),
-                              ))));
-                            }  
-                            Future<bool> _onBackPressed() {
-                              return showDialog(
-                                    context: context,
-                                    builder: (context) => new AlertDialog(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                                      title: new Text(
-                                        'Are you sure?',
-                                        style: TextStyle(
-                                          color: Colors.black54,
+    return Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: AppBar(
+          backgroundColor: Colors.deepOrangeAccent,
+          title: Text(widget.product.name),
+        ),
+        body: Container(
+          alignment: Alignment.topCenter,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 10),
+                Container(
+                  height: screenHeight / 2,
+                  width: screenWidth / 1.1,
+                  child: Image(
+                    fit: BoxFit.fill,
+                    image:NetworkImage(
+                        "http://asaboleh.com/superchef/productImage/${widget.product.id}.jpg"),
+                   
+                  ),
+                ),
+                SizedBox(height: 6),
+                Container(
+                    width: screenWidth / 1.2,
+                    //height: screenHeight / 2,
+                    child: Card(
+                      color: Colors.orange[200],
+                        elevation: 6,
+                        child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                              children: <Widget>[
+                                Table(
+                                    defaultColumnWidth: FlexColumnWidth(1.0),
+                                    children: [
+                                      TableRow(children: [
+                                        TableCell(
+                                          child: Container(
+                                              alignment: Alignment.centerLeft,
+                                              height: 40,
+                                              child: Text("ID :",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ))),
                                         ),
-                                      ),
-                                      content: new Text(
-                                        'Back to homepage',
-                                        style: TextStyle(
-                                          color: Colors.black54,
+                                        TableCell(
+                                            child: Container(
+                                          height: 40,
+                                          child: Container(
+                                              alignment: Alignment.centerLeft,
+                                              height: 40,
+                                              child: Text(
+                                                "" + widget.product.id,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                ),
+                                              )),
+                                        )),
+                                      ]),
+                                      TableRow(children: [
+                                        TableCell(
+                                          child: Container(
+                                              alignment: Alignment.centerLeft,
+                                              height: 40,
+                                              child: Text("Price  :",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ))),
                                         ),
-                                      ),
-                                      actions: <Widget>[
-                                        MaterialButton(
-                                            onPressed: () {
-                                              SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-                                            },
+                                        TableCell(
+                                            child: Column(children: <Widget>[
+                                          GestureDetector(
+                                            child: Container(
+                                                alignment: Alignment.centerLeft,
+                                                height: 40,
+                                                child: Text(
+                                                  "RM " + widget.product.price,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ),
+                                                )),
+                                          )
+                                        ])),
+                                      ]),
+                                      TableRow(children: [
+                                        TableCell(
+                                          child: Container(
+                                              alignment: Alignment.centerLeft,
+                                              height: 40,
+                                              child: Text("Quantity  :",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ))),
+                                        ),
+                                        TableCell(
+                                            child: Container(
+                                          height: 40,
+                                          child: Container(
+                                              alignment: Alignment.centerLeft,
+                                              height: 30,
+                                              child: Text(
+                                                "" + widget.product.quantity,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                ),
+                                              )),
+                                        )),
+                                      ]),
+                                      TableRow(children: [
+                                        TableCell(
+                                          child: Container(
+                                              alignment: Alignment.centerLeft,
+                                              height: 40,
+                                              child: Text("Weight  :",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ))),
+                                        ),
+                                        TableCell(
+                                          child: Container(
+                                            alignment: Alignment.centerLeft,
+                                            height: 40,
                                             child: Text(
-                                              "Yes",
-                                              style: TextStyle(
-                                                color: Colors.black54,
-                                              ),
-                                            )),
-                                        MaterialButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop(false);
-                                            },
+                                                widget.product.weight + "g",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                )),
+                                          ),
+                                        )
+                                      ]),
+                                      TableRow(children: [
+                                        TableCell(
+                                          child: Container(
+                                              alignment: Alignment.centerLeft,
+                                              height: 30,
+                                              child: Text("Type  :",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ))),
+                                        ),
+                                        TableCell(
+                                          child: Container(
+                                            alignment: Alignment.centerLeft,
+                                            height: 30,
                                             child: Text(
-                                              "No",
+                                              "" + widget.product.type,
                                               style: TextStyle(
-                                                color: Colors.black54,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
                                               ),
-                                            )),
-                                      ],
-                                    ),
-                                  ) ??
-                                  false;
-                            }                                            
-}  
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
+                                    ]),
+                                SizedBox(height: 3),
+                              ],
+                            )))),
+              ],
+            ),
+          ),
+        ));
+  }
+}

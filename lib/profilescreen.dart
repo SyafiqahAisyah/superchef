@@ -1,17 +1,18 @@
 //import 'dart:convert';
 //import 'dart:io';
 import 'package:flutter/material.dart';
-//import 'package:cached_network_image/cached_network_image.dart';
-//import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 //import 'package:image_picker/image_picker.dart';
 import 'loginscreen.dart';
 import 'registerscreen.dart';
 import 'user.dart';
+import 'package:superchef/storecredit.dart';
 import 'package:http/http.dart' as http;
 import 'package:toast/toast.dart';
 //import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:intl/intl.dart';
-import 'package:recase/recase.dart';
+//import 'package:recase/recase.dart';
 
 class ProfileScreen extends StatefulWidget {
   final User user;
@@ -41,10 +42,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
-   // parsedDate = DateTime.parse(widget.user.datereg);
+    // parsedDate = DateTime.parse(widget.user.datereg);
 
     return Scaffold(
+      // backgroundColor: Colors.orangeAccent,
       appBar: AppBar(
+        backgroundColor: Colors.deepOrangeAccent,
         title: Text('My Profile'),
       ),
       body: Center(
@@ -52,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: <Widget>[
             SizedBox(height: 5),
             Card(
-              //color: Colors.red,
+              color: Colors.orange[200],
               elevation: 5,
               child: Padding(
                 padding: EdgeInsets.all(5),
@@ -61,34 +64,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                      /*  GestureDetector(
-                          onTap: _takePicture,
+                        GestureDetector(
+                          onTap: null,
                           child: Container(
-                            height: screenHeight / 4.8,
-                            width: screenWidth / 3.2,
+                            height: screenHeight / 5,
+                            width: screenWidth / 3,
                             decoration: new BoxDecoration(
                               shape: BoxShape.circle,
                               //border: Border.all(color: Colors.black),
                             ),
                             child: CachedNetworkImage(
                               fit: BoxFit.cover,
-                              imageUrl:
-                                  server+ "/profileimages/${widget.user.email}.jpg?",
+                              imageUrl: server + "/profileimages/profile.png?",
                               placeholder: (context, url) => new SizedBox(
                                   height: 10.0,
                                   width: 10.0,
-                                  child: CircularProgressIndicator()),
+                                  child:
+                                   CircularProgressIndicator()),
                               errorWidget: (context, url, error) =>
                                   new Icon(MdiIcons.cameraIris, size: 64.0),
                             ),
                           ),
-                        ),*/
+                        ),
                         SizedBox(width: 10),
                         Expanded(
                             child: Container(
                           // color: Colors.red,
                           child: Table(
-                              defaultColumnWidth: FlexColumnWidth(1.0),
+                              defaultColumnWidth: FlexColumnWidth(2.0),
                               columnWidths: {
                                 0: FlexColumnWidth(3.5),
                                 1: FlexColumnWidth(6.5),
@@ -99,7 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Container(
                                         alignment: Alignment.centerLeft,
                                         height: 20,
-                                        child: Text("Name",
+                                        child: Text("Name  :",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black))),
@@ -108,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Container(
                                       alignment: Alignment.centerLeft,
                                       height: 20,
-                                      child: Text(widget.user.name,
+                                      child: Text("Syafiqah Aisyah",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14,
@@ -121,7 +124,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Container(
                                         alignment: Alignment.centerLeft,
                                         height: 20,
-                                        child: Text("Email",
+                                        child: Text("Email  : ",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black))),
@@ -130,7 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Container(
                                       alignment: Alignment.centerLeft,
                                       height: 20,
-                                      child: Text(widget.user.email,
+                                      child: Text("iamsyaf15@gmail.com ",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14,
@@ -143,7 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Container(
                                         alignment: Alignment.centerLeft,
                                         height: 20,
-                                        child: Text("Phone",
+                                        child: Text("Phone  :",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black))),
@@ -152,7 +155,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Container(
                                       alignment: Alignment.centerLeft,
                                       height: 20,
-                                      child: Text(widget.user.phone,
+                                      child: Text("01110670553 ",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14,
@@ -165,7 +168,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Container(
                                         alignment: Alignment.centerLeft,
                                         height: 20,
-                                        child: Text("Register Date",
+                                        child: Text("Register Date :",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black))),
@@ -174,7 +177,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Container(
                                       alignment: Alignment.centerLeft,
                                       height: 20,
-                                      child: Text(f.format(parsedDate),
+                                      child: Text(" 28-05-2020 14:30 ",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14,
@@ -199,10 +202,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Column(
                           children: <Widget>[
                             Text(
-                              "Store Credit",
-                              style: TextStyle(color: Colors.black),
+                              "Store Credit : 20",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
                             ),
-                         /*   Text(widget.user.credit,
+                            /*   Text(widget.user.credit,
                                 style: TextStyle(
                                     color: Colors.orangeAccent))*/
                           ],
@@ -214,18 +219,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             Container(
-              color: Colors.orangeAccent,
+              //  color: Colors.orangeAccent,
               child: Center(
                 child: Text("SET YOUR PROFILE",
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.black)),
               ),
             ),
             Divider(
-              height: 2,
-              color: Colors.grey,
+              height: 5,
+              color: Colors.deepOrangeAccent,
             ),
             Expanded(
 
@@ -236,29 +241,76 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: <Widget>[
                   MaterialButton(
                     onPressed: changeName,
-                    child: Text("CHANGE YOUR NAME"),
+                    child: Text(
+                      "CHANGE YOUR NAME",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    color: Colors.orangeAccent,
                   ),
                   MaterialButton(
                     onPressed: changePassword,
-                    child: Text("CHANGE YOUR PASSWORD"),
+                    child: Text(
+                      "CHANGE YOUR PASSWORD",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    color: Colors.orange[200],
                   ),
                   MaterialButton(
                     onPressed: changePhone,
-                    child: Text("CHANGE YOUR PHONE"),
+                    child: Text(
+                      "CHANGE YOUR PHONE",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    color: Colors.orangeAccent,
                   ),
                   MaterialButton(
                     onPressed: _gotologinPage,
-                    child: Text("GO LOGIN SCREEN"),
+                    child: Text(
+                      "GO TO LOGIN SCREEN",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    color: Colors.orange[200],
                   ),
                   MaterialButton(
                     onPressed: _registerAccount,
-                    child: Text("REGISTER NEW ACCOUNT"),
+                    child: Text(
+                      "REGISTER NEW ACCOUNT",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    color: Colors.orangeAccent,
                   ),
                   MaterialButton(
-                    onPressed: null,
-                    child: Text("BUY STORE CREDIT"),
+                    onPressed: buyStoreCredit,
+                    child: Text(
+                      "BUY STORE CREDIT",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    color: Colors.orange[200],
                   ),
-                  
                 ])),
           ],
         ),
@@ -303,7 +355,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }*/
 
   void changeName() {
-    if (widget.user.email == "unregistered") {
+    /* if (widget.user.email == "unregistered") {
       Toast.show("Please register to use this function", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       return;
@@ -312,7 +364,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Toast.show("Admin Mode!!!", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       return;
-    }
+    }*/
     TextEditingController nameController = TextEditingController();
     showDialog(
         context: context,
@@ -335,7 +387,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     labelText: 'Name',
                     icon: Icon(
                       Icons.person,
-                      color: Colors.orangeAccent,
+                      color: Colors.deepOrange,
                     ),
                   )),
               actions: <Widget>[
@@ -343,7 +395,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: new Text(
                       "Yes",
                       style: TextStyle(
-                        color: Colors.orangeAccent,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepOrange,
                       ),
                     ),
                     onPressed: () =>
@@ -352,7 +406,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: new Text(
                     "No",
                     style: TextStyle(
-                      color: Colors.orangeAccent,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepOrange,
                     ),
                   ),
                   onPressed: () => {Navigator.of(context).pop()},
@@ -362,17 +418,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   _changeName(String name) {
-    if (widget.user.email == "unregistered") {
+    /* if (widget.user.email == "unregistered") {
       Toast.show("Please register to use this function", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       return;
-    }
+    }*/
     if (name == "" || name == null) {
       Toast.show("Please enter your new name", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       return;
     }
-    ReCase rc = new ReCase(name);
+    /* ReCase rc = new ReCase(name);
     print(rc.titleCase.toString());
     http.post(server+"/php/update_profile.php", body: {
       "email": widget.user.email,
@@ -391,15 +447,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
       } else {}
     }).catchError((err) {
       print(err);
-    });
+    });*/
   }
 
   void changePassword() {
-    if (widget.user.email == "unregistered") {
+    /*  if (widget.user.email == "unregistered") {
       Toast.show("Please register to use this function", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       return;
-    }
+    }*/
     TextEditingController passController = TextEditingController();
     TextEditingController pass2Controller = TextEditingController();
     showDialog(
@@ -427,7 +483,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         labelText: 'Old Password',
                         icon: Icon(
                           Icons.lock,
-                          color: Colors.orangeAccent,
+                          color: Colors.deepOrange,
                         ),
                       )),
                   TextField(
@@ -438,10 +494,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       controller: pass2Controller,
                       decoration: InputDecoration(
                         labelText: 'New Password',
-                        icon: Icon(
-                          Icons.lock,
-                          color: Colors.orangeAccent
-                        ),
+                        icon: Icon(Icons.lock, color: Colors.deepOrange),
                       )),
                 ],
               ),
@@ -450,7 +503,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: new Text(
                       "Yes",
                       style: TextStyle(
-                        color: Colors.orangeAccent,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepOrange,
                       ),
                     ),
                     onPressed: () => updatePassword(
@@ -459,7 +514,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: new Text(
                     "No",
                     style: TextStyle(
-                      color: Colors.orangeAccent,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepOrange,
                     ),
                   ),
                   onPressed: () => {Navigator.of(context).pop()},
@@ -475,7 +532,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return;
     }
 
-    http.post(server+"/php/update_profile.php", body: {
+    /*  http.post(server+"/php/update_profile.php", body: {
       "email": widget.user.email,
       "oldpassword": pass1,
       "newpassword": pass2,
@@ -492,15 +549,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
       } else {}
     }).catchError((err) {
       print(err);
-    });
+    });*/
   }
 
   void changePhone() {
-    if (widget.user.email == "unregistered") {
+    /*  if (widget.user.email == "unregistered") {
       Toast.show("Please register to use this function", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       return;
-    }
+    }*/
     TextEditingController phoneController = TextEditingController();
     showDialog(
         context: context,
@@ -509,7 +566,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20.0))),
               title: new Text(
-                "Change your name?",
+                "Change your phone number?",
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -523,7 +580,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     labelText: 'New Phone Number',
                     icon: Icon(
                       Icons.phone,
-                      color: Colors.orangeAccent,
+                      color: Colors.deepOrange,
                     ),
                   )),
               actions: <Widget>[
@@ -531,7 +588,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: new Text(
                       "Yes",
                       style: TextStyle(
-                        color: Colors.orangeAccent,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepOrange,
                       ),
                     ),
                     onPressed: () =>
@@ -540,7 +599,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: new Text(
                     "No",
                     style: TextStyle(
-                      color: Colors.orangeAccent,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepOrange,
                     ),
                   ),
                   onPressed: () => {Navigator.of(context).pop()},
@@ -555,8 +616,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       return;
     }
-    http.post(server+"/php/update_profile.php", body: {
-      "email": widget.user.email,
+    http.post(server + "/php/update_profile.php", body: {
+      //  "email": widget.user.email,
       "phone": phone,
     }).then((res) {
       if (res.body == "success") {
@@ -575,10 +636,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-
-   void _gotologinPage() {
+  void _gotologinPage() {
     // flutter defined function
-    print(widget.user.name);
+    //  print(widget.user.name);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -604,7 +664,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: new Text(
                 "Yes",
                 style: TextStyle(
-                  color: Colors.orange,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepOrange,
                 ),
               ),
               onPressed: () {
@@ -619,7 +681,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: new Text(
                 "No",
                 style: TextStyle(
-                  color: Colors.orangeAccent,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepOrange,
                 ),
               ),
               onPressed: () {
@@ -634,7 +698,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _registerAccount() {
     // flutter defined function
-    print(widget.user.name);
+    //print(widget.user.name);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -660,7 +724,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: new Text(
                 "Yes",
                 style: TextStyle(
-                  color: Colors.orangeAccent,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepOrange,
                 ),
               ),
               onPressed: () {
@@ -676,7 +742,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: new Text(
                 "No",
                 style: TextStyle(
-                  color: Colors.orangeAccent,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepOrange,
                 ),
               ),
               onPressed: () {
@@ -686,6 +754,127 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         );
       },
+    );
+  }
+
+  void buyStoreCredit() {
+  /*  if (widget.user.email == "unregistered") {
+      Toast.show("Please register to use this function", context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      return;
+    }*/
+    TextEditingController creditController = TextEditingController();
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              title: new Text(
+                "Buy Store Credit?",
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              content: new TextField(
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                  controller: creditController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Enter RM',
+                    icon: Icon(
+                      Icons.attach_money,
+                      color: Colors.deepOrange,
+                    ),
+                  )),
+              actions: <Widget>[
+                new FlatButton(
+                    child: new Text(
+                      "Yes",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepOrange,
+                      ),
+                    ),
+                    onPressed: () => _buyCredit(
+                        creditController.text.toString()
+                        )),
+                new FlatButton(
+                  child: new Text(
+                    "No",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.deepOrange,
+                    ),
+                  ),
+                  onPressed: () => {Navigator.of(context).pop()},
+                ),
+              ]);
+        });
+  }
+
+  _buyCredit(String cr) {
+    print("RM " + cr);
+    if (cr.length <= 0) {
+      Toast.show("Please enter correct amount", context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      return;
+    }
+    showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0))),
+        title: new Text(
+          'Buy store credit RM ' + cr,
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        content: new Text(
+          'Are you sure?',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        actions: <Widget>[
+          MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+                Navigator.of(context).pop(false);
+                Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => StoreCreditScreen(
+                  user: widget.user,
+                  val: cr,
+                )));
+              },
+              child: Text(
+                "OK",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepOrange,
+                ),
+              )),
+          MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+                Navigator.of(context).pop(false);
+              },
+              child: Text(
+                "Cancel",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepOrange,
+                ),
+              )),
+        ],
+      ),
     );
   }
 }

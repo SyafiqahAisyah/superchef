@@ -3,7 +3,7 @@ error_reporting(0);
 include_once ("dbconnect.php");
 $email = $_POST['email'];
 
-$sql = "SELECT * FROM CART WHERE EMAIL = '$email'";    
+$sql = "SELECT * FROM CART WHERE PROID = '$prodid'";    
 $quan = 0;
  
 $result = $conn->query($sql);

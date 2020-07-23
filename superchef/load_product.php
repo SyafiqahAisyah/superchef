@@ -28,6 +28,7 @@ if ($result->num_rows > 0)
         $productlist = array();
         $productlist['id'] = $row["ID"];
         $productlist['name'] = $row["NAME"];
+        //$productlist['description'] = $row["DESCRIPTION"];
         $productlist['price'] = $row["PRICE"];
         $productlist['quantity'] = $row["QUANTITY"];
         $productlist['weight'] = $row["WEIGHT"];
